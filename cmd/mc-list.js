@@ -1,6 +1,7 @@
+// ========= View The Minecraft List
+
 const Discord = require('discord.js')
 const locations = require('../db/mc.json')
-
 
 module.exports = {
 	name: 'mc-list',

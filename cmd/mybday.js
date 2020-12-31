@@ -1,3 +1,5 @@
+// ========= Add Your Birthday
+
 const { prefix, errorImg, okImg } = require('../config/config.json')
 const roleList = require('../db/roles.json')
 const path = require('path')
@@ -20,6 +22,7 @@ module.exports = {
             return message.channel.send(rsp('We already have your birday', errorImg))
         }
 
+        //create a numeric month from the month they entered; eg will convert Oct to 10
         const monthObject = Date.parse(`${month} 01, 2012`)
 
         if(!isNaN(monthObject)) {
@@ -28,8 +31,8 @@ module.exports = {
             return message.channel.send(rsp('Please Enter A Valid Month', errorImg))
         }
 
+        //check if the date is actually a date. We'll use 2012 sinces its a leap year. So was 2020 but fuck 2020
         const isValid = DateTime.fromObject({month : month, day : day, year : '2012'}).isValid
-        console.log(isValid)
 
         if(!isValid) {
             return message.channel.send(rsp('Please Enter A Valid Date', errorImg))
@@ -45,9 +48,6 @@ module.exports = {
                 if (err) throw err
             }
         )
-
         message.channel.send(rsp(`Thanks ${member.nickname}. Your Bday has been added!`, okImg))
-        
-        
 	},
 }

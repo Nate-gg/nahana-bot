@@ -1,3 +1,5 @@
+// ========= Where's Mike?
+
 const { prefix, okImg } = require('../config/config.json')
 const path = require('path')
 const where = require('../db/mike.json')
