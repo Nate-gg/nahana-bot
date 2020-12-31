@@ -3,7 +3,7 @@
 const { prefix } = require('../config/config.json')
 const path = require('path')
 const where = require('../db/mike.json')
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 
 module.exports = {
     name: 'whereismikeyb',
