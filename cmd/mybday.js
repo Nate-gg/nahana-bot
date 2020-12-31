@@ -19,7 +19,7 @@ module.exports = {
         const day = args[1]
 
         if(birthdays.find(obj => obj.user === member.id)) { 
-            return message.channel.send(rsp('We already have your birday', errorImg))
+            return message.channel.send(rsp('We already have your birthday', errorImg))
         }
 
         //create a numeric month from the month they entered; eg will convert Oct to 10
@@ -48,6 +48,8 @@ module.exports = {
                 if (err) throw err
             }
         )
-        message.channel.send(rsp(`Thanks ${member.nickname}. Your Bday has been added!`, okImg))
+
+        let user = (member.nickname) ? member.nickname : member.user.username
+        message.channel.send(rsp(`Thanks ${user}. Your Bday has been added!`, okImg))
 	},
 }
