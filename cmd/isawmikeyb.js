@@ -3,7 +3,7 @@
 const { prefix, okImg } = require('../config/config.json')
 const path = require('path')
 const where = require('../db/mike.json')
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 const fs = require('fs')
 
 module.exports = {

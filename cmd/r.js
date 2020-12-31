@@ -3,7 +3,7 @@
 const Discord = require('discord.js')
 const { prefix, errorImg } = require('../config/config.json')
 const Reddit = require("@cxllm/reddit")
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 
 module.exports = {
     name: 'r/',

@@ -3,7 +3,7 @@
 const { errorImg, okImg } = require('../config/config.json')
 const path = require('path')
 const fs = require('fs')
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 const locations = require('../db/mc.json')
 
 module.exports = {
