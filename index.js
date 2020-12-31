@@ -1,15 +1,20 @@
 'use strict'
 
-const fs = require('fs')
+// Discord Libs
 const Discord = require('discord.js')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
 
-const { prefix, token, errorImg } = require('./config/config.json')
-const rsp = require('./responses.js')
+//Packages
+const fs = require('fs')
 const cron = require('node-cron')
 const { DateTime } = require('luxon')
 
+//Local Files
+const { prefix, token, errorImg } = require('./config/config.json')
+const rsp = require('./responses.js')
+
+//Import all the commands and set them
 const cmdFiles = fs.readdirSync('./cmd').filter((file) => file.endsWith('.js'))
 
 for (const file of cmdFiles) {
@@ -18,6 +23,8 @@ for (const file of cmdFiles) {
     client.commands.set(cmd.name, cmd)
 }
 
+//cron job for birthdays
+// ======= MOVE THIS TO FUNCTION EXPORT
 const setCron = () => {
 
     // getBirthdays(12, 29)
@@ -33,6 +40,8 @@ const setCron = () => {
     console.log(`Logged in as ${client.user.tag}!`)    
 }
 
+//birthday function
+// ======= MOVE THIS TO FUNCTION EXPORT
 const getBirthdays = (month, day) => {
     const general = client.channels.cache.get('528964687824551938')
 
@@ -81,6 +90,8 @@ const getBirthdays = (month, day) => {
 client.on('ready', setCron)
 
 client.on('message', (message) => {
+
+    //set up the bot to receive commands
     if (!message.content.startsWith(prefix) || message.author.bot) return
     const args = message.content.slice(prefix.length).trim().split(/ +/)
     const cmdName = args.shift().toLowerCase()
@@ -88,6 +99,7 @@ client.on('message', (message) => {
     if (!client.commands.has(cmdName)) return
     const cmd = client.commands.get(cmdName)
 
+    //check if the command requires roles and check against the users roles
     if (cmd.roles) {
         let hasRole = false
 
@@ -105,6 +117,7 @@ client.on('message', (message) => {
         }
     }
 
+    //check if the command has channel restrictions
     if (cmd.channels) {
         let inChannel = false
 
@@ -122,6 +135,7 @@ client.on('message', (message) => {
         }
     }
 
+    //check if the command needs arguments
     if (cmd.args && !args.length) {
         let reply = 'I need More Info :/'
         if (cmd.usage) {

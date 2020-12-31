@@ -1,4 +1,6 @@
-const { prefix, errorImg, okImg } = require('../config/config.json')
+// ========= Add Locations To The Minecraft List
+
+const { errorImg, okImg } = require('../config/config.json')
 const path = require('path')
 const fs = require('fs')
 const rsp = require('../responses.js')

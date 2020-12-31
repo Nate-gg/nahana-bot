@@ -1,3 +1,5 @@
+// ========= Trys to pull a random image from a subreddit
+
 const Discord = require('discord.js')
 const { prefix, errorImg } = require('../config/config.json')
 const Reddit = require("@cxllm/reddit")
