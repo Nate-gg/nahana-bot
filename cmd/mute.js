@@ -1,3 +1,5 @@
+// ========= Mutes a User
+
 const { prefix, errorImg } = require('../config/config.json')
 const rsp = require('../responses.js')
 

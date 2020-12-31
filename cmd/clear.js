@@ -1,3 +1,5 @@
+// ========= Clears Messages
+
 const { prefix } = require('../config/config.json')
 
 module.exports = {
