@@ -34,7 +34,7 @@ const setCron = () => {
 }
 
 const getBirthdays = (month, day) => {
-    const general = client.channels.cache.get('759209717402435634')
+    const general = client.channels.cache.get('528964687824551938')
 
     const buffer = fs.readFileSync('./db/bday.json')
     const birthdays = JSON.parse(buffer)
