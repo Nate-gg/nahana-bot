@@ -1,7 +1,7 @@
 // ========= Server unmute and undefen yourself
 
 const { prefix, errorImg } = require('../config/config.json')
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 
 module.exports = {
     name: 'unshh',

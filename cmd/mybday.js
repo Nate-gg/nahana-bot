@@ -4,7 +4,7 @@ const { prefix, errorImg, okImg } = require('../config/config.json')
 const roleList = require('../db/roles.json')
 const path = require('path')
 const fs = require('fs')
-const rsp = require('../responses.js')
+const { rsp } = require('../functions')
 const { DateTime } = require('luxon')
 const birthdays = require('../db/bday.json')
 
