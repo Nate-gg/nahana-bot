@@ -12,7 +12,6 @@ module.exports = {
 	usage: `You need to specify a subreddit: \n eg: ${prefix}r pics`,
 	execute(message, args) {
 		const sub = args[0]
-		let send = false
 		let int = 0
 		const max = 20
 		let brb

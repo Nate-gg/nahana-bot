@@ -1,12 +1,11 @@
 // ========= Server unmute and undefen yourself
 
-const { prefix, errorImg } = require('../config/config.json')
 const { rsp } = require('../functions')
 
 module.exports = {
 	name: 'unshh',
 	description: 'sever Unmute & Undeafen Yourself',
-	execute(message, args) {
+	execute(message) {
 		const member = message.member
 
 		console.log(member)

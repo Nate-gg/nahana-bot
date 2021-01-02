@@ -1,12 +1,11 @@
 // ========= Server mute and defen yourself
 
-const { prefix, errorImg } = require('../config/config.json')
 const { rsp } = require('../functions')
 
 module.exports = {
 	name: 'shh',
 	description: 'Sever Mute & Deafen Yourself',
-	execute(message, args) {
+	execute(message) {
 		const member = message.member
 
 		console.log(member)
@@ -18,7 +17,7 @@ module.exports = {
 		member.voice.setMute(true)
 		member.voice.setDeaf(true)
 		return message.channel.send(
-			rsp(`It\'s quiet now ${message.member.displayName}`, avatar)
+			rsp(`It's quiet now ${message.member.displayName}`, avatar)
 		)
 	},
 }
