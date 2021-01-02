@@ -67,21 +67,12 @@ exports.getBirthdays = (month, day) => {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#efb055')
 			.setTitle('Upcoming Birthdays!!')
-			.setImage(
+			.setThumbnail(
 				'https://cdn.discordapp.com/emojis/582263922212732940.gif?v=1'
 			)
 
 		for (const el of upcoming) {
-			const year =
-				el.month < today.month
-					? today.plus({ year: 1 }).toFormat('yyyy')
-					: today.toFormat('yyyy')
-			const bday = DateTime.fromObject({
-				month: el.month,
-				day: el.day,
-				year: year,
-			})
-			const diff = bday.diff(today, ['days', 'hours']).toObject()
+			const diff = exports.bdayIsIn(el.month, el.day)
 			const user = client.users.cache.get(el.user)
 			let inDays = 'tomorrow!'
 
@@ -94,4 +85,18 @@ exports.getBirthdays = (month, day) => {
 		embed.setFooter('Set Your Calenders!')
 		general.send(embed)
 	}
+}
+
+exports.bdayIsIn = (month, day) => {
+	const today = DateTime.local()
+	const year =
+		month < today.month
+			? today.plus({ year: 1 }).toFormat('yyyy')
+			: today.toFormat('yyyy')
+	const bday = DateTime.fromObject({
+		month: month,
+		day: day,
+		year: year,
+	})
+	return bday.diff(today, ['days', 'hours']).toObject()
 }
