@@ -25,6 +25,8 @@ exports.setCron = () => {
 
 exports.getBirthdays = (month, day) => {
 	const general = client.channels.cache.get('528964687824551938')
+	//for testing in testing-space
+	// const general = client.channels.cache.get('759209717402435634')
 
 	const buffer = fs.readFileSync('./db/bday.json')
 	const birthdays = JSON.parse(buffer)
@@ -61,28 +63,35 @@ exports.getBirthdays = (month, day) => {
 		})
 	})
 
-	for (const el of upcoming) {
-		const year =
-			el.month < today.month
-				? today.plus({ year: 1 }).toFormat('yyyy')
-				: today.toFormat('yyyy')
-		const bday = DateTime.fromObject({
-			month: el.month,
-			day: el.day,
-			year: year,
-		})
-		const diff = bday.diff(today, ['days', 'hours']).toObject()
-		const user = client.users.cache.get(el.user)
-		let inDays = 'tomorrow!'
-
-		if (diff.days > 0) {
-			inDays = `in ${diff.days} days!`
-		}
-		general.send(
-			exports.rsp(
-				`${user.username}'s birthday is ${inDays}`,
+	if (upcoming.length !== 0) {
+		const embed = new Discord.MessageEmbed()
+			.setColor('#efb055')
+			.setTitle('Upcoming Birthdays!!')
+			.setImage(
 				'https://cdn.discordapp.com/emojis/582263922212732940.gif?v=1'
 			)
-		)
+
+		for (const el of upcoming) {
+			const year =
+				el.month < today.month
+					? today.plus({ year: 1 }).toFormat('yyyy')
+					: today.toFormat('yyyy')
+			const bday = DateTime.fromObject({
+				month: el.month,
+				day: el.day,
+				year: year,
+			})
+			const diff = bday.diff(today, ['days', 'hours']).toObject()
+			const user = client.users.cache.get(el.user)
+			let inDays = 'tomorrow!'
+
+			if (diff.days > 0) {
+				inDays = `in ${diff.days} days!`
+			}
+			embed.addField(`${user.username}'s birthday`, `is ${inDays}`)
+		}
+		embed.setTimestamp()
+		embed.setFooter('Set Your Calenders!')
+		general.send(embed)
 	}
 }
