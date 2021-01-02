@@ -1,28 +1,28 @@
 {
-  "name": "nahana_bot",
-  "version": "1.0.0",
-  "description": "for the luls",
-  "main": "index.js",
-  "homepage": "https://github.com/NahanaBanahnah/nahana-bot.git#readme",
-  "bugs": "https://github.com/NahanaBanahnah/nahana-bot/issues",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Nate <nate@nahanacreative.com> (http://nahanacreative.com)",
-  "license": "ISC",
-  "dependencies": {
-    "@cxllm/reddit": "^1.0.1-10",
-    "axios": "^0.20.0",
-    "discord.js": "^12.3.1",
-    "luxon": "^1.25.0",
-    "node-cron": "^2.0.3"
-  },
-  "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.0.0"
-  }
+	"name": "nahana_bot",
+	"version": "1.0.0",
+	"description": "for the luls",
+	"main": "index.js",
+	"homepage": "https://github.com/NahanaBanahnah/nahana-bot.git#readme",
+	"bugs": "https://github.com/NahanaBanahnah/nahana-bot/issues",
+	"scripts": {
+		"start": "nodemon start"
+	},
+	"author": "Nate <nate@nahanacreative.com> (http://nahanacreative.com)",
+	"license": "ISC",
+	"dependencies": {
+		"@cxllm/reddit": "^1.0.1-10",
+		"axios": "^0.20.0",
+		"discord.js": "^12.3.1",
+		"luxon": "^1.25.0",
+		"node-cron": "^2.0.3"
+	},
+	"devDependencies": {
+		"eslint": "^7.2.0",
+		"eslint-config-airbnb": "^18.2.1",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-react": "^7.21.5",
+		"eslint-plugin-react-hooks": "^4.0.0"
+	}
 }
