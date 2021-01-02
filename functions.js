@@ -35,7 +35,7 @@ exports.getBirthdays = (month, day) => {
 	for (const el of todayBDays) {
 		const user = client.users.cache.get(el.user)
 		general.send(
-			rsp(
+			exports.rsp(
 				`Today (${month}-${day}) Is ${user.username} 's Birthday!!`,
 				'https://cdn.discordapp.com/emojis/582263922212732940.gif?v=1'
 			)

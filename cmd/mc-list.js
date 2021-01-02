@@ -7,7 +7,7 @@ module.exports = {
 	name: 'mc-list',
 	description: 'List Minecraft Locations',
 	args: false,
-	execute(message, args) {
+	execute(message) {
 		const exampleEmbed = new Discord.MessageEmbed()
 			.setColor('#70B237')
 			.setTitle('Minecraft Location List')

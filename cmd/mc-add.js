@@ -1,6 +1,6 @@
 // ========= Add Locations To The Minecraft List
 
-const { errorImg, okImg } = require('../config/config.json')
+const { errorImg } = require('../config/config.json')
 const path = require('path')
 const fs = require('fs')
 const { rsp } = require('../functions')
@@ -10,7 +10,7 @@ module.exports = {
 	name: 'mc-add',
 	description: 'Add Minecraft Coords',
 	args: false,
-	execute(message, args) {
+	execute(message) {
 		const filter = m => m.author === message.author
 		const obj = {}
 
@@ -64,7 +64,7 @@ module.exports = {
 													'Thanks! The Location Has Been Added!'
 												)
 											})
-											.catch(collected => {
+											.catch(() => {
 												message.channel.send(
 													rsp(
 														'Sorry. You Took To Long',
@@ -74,14 +74,14 @@ module.exports = {
 											})
 									})
 							})
-							.catch(collected => {
+							.catch(() => {
 								message.channel.send(
 									rsp('Sorry. You Took To Long', errorImg)
 								)
 							})
 					})
 				})
-				.catch(collected => {
+				.catch(() => {
 					message.channel.send(
 						rsp('Sorry. You Took To Long', errorImg)
 					)

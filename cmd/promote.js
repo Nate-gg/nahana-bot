@@ -10,7 +10,7 @@ module.exports = {
 	args: true,
 	usage: `You need to specify the member to promote \n eg: ${prefix}promote <member>`,
 	roles: ['532287013219729408', '417399782928023553'],
-	execute(message, args) {
+	execute(message) {
 		if (!message.mentions.users.size) {
 			return message.channel.send(
 				rsp('You need to tag a user to promote them', errorImg)

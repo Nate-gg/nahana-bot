@@ -1,6 +1,6 @@
 // ========= Where's Mike?!
 
-const { prefix } = require('../config/config.json')
+const { prefix, okImg } = require('../config/config.json')
 const path = require('path')
 const where = require('../db/mike.json')
 const { rsp } = require('../functions')
