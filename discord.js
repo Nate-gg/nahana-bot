@@ -3,5 +3,5 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 
-exports.client = client
 exports.Discord = Discord
+exports.client = client
