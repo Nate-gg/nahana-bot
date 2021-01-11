@@ -1,9 +1,6 @@
 // ========= List The Rules
 
 const { client, Discord } = require('../discord')
-const { okImg } = require('../config/config.json')
-
-const { rsp } = require('../functions')
 
 module.exports = {
 	name: 'rules',
