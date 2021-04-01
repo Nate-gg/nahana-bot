@@ -14,7 +14,7 @@ exports.rsp = (error, img, color = '#efb055') => {
 }
 
 exports.setCron = () => {
-	cron.schedule('0 0 * * *', () => {
+	cron.schedule('0 10 * * *', () => {
 		const d = new Date()
 		const thisMonth = d.getMonth() + 1
 		const thisDate = d.getDate()
@@ -76,7 +76,7 @@ exports.getBirthdays = (month, day) => {
 			const user = client.users.cache.get(el.user)
 			let inDays = 'tomorrow!'
 
-			if (diff.days > 0) {
+			if (diff.days > 1) {
 				inDays = `in ${diff.days} days!`
 			}
 			embed.addField(`${user.username}'s birthday`, `is ${inDays}`)
@@ -88,7 +88,7 @@ exports.getBirthdays = (month, day) => {
 }
 
 exports.bdayIsIn = (month, day) => {
-	const today = DateTime.local()
+	const today = DateTime.local().minus({day: 1})
 	const year =
 		month < today.month
 			? today.plus({ year: 1 }).toFormat('yyyy')
