@@ -4,13 +4,15 @@ const { DateTime } = require('luxon')
 const { Discord, client } = require('../discord')
 const { prefix } = require('../config/config.json')
 const birthdays = require('../db/bday.json')
-const { bdayIsIn } = require('../functions')
+const { bdayIsIn, getBirthdays } = require('../functions')
+
+
 
 module.exports = {
 	name: 'bdaylist',
 	description: 'Gets The List Of Birthdays',
 	execute(message) {
-		;(async () => {
+		(async () => {
 			const today = DateTime.local()
 
 			const membersToFetch = birthdays.map(el => el.user)
@@ -23,9 +25,9 @@ module.exports = {
 					const obj = {}
 
 					let user = message.guild.members.cache.get(el.user)
-					obj.user = user.nickname
-						? ` ${user.nickname} `
-						: ` ${user.user.username} `
+
+                    console.log(user.user)
+					obj.user =  user.user.username
 
 					obj.date = DateTime.fromObject({
 						month: el.month,
@@ -76,48 +78,6 @@ module.exports = {
 			}
 			embed += '```'
 
-			// const embed = new Discord.MessageEmbed()
-			// 	.setTitle('Birthday List!')
-			// 	.setColor('#efb055')
-			// 	.setThumbnail(
-			// 		'https://cdn.discordapp.com/emojis/582263922212732940.gif?v=1'
-			// 	)
-			// 	.setFooter(`Add Yours with ${prefix}addmybday`)
-			// 	.addFields(
-			// 		{
-			// 			name: 'User',
-			// 			value: bdayList
-			// 				.map(el => {
-			// 					const user = message.guild.members.cache.get(
-			// 						el.user
-			// 					)
-			// 					return (display = user.nickname
-			// 						? user.nickname
-			// 						: user.user.username)
-			// 				})
-			// 				.join('\n-----\n'),
-			// 			inline: true,
-			// 		},
-			// 		{
-			// 			name: 'Date',
-			// 			value: bdayList
-			// 				.map(el => {
-			// 					return (date = DateTime.fromObject({
-			// 						month: el.month,
-			// 						day: el.day,
-			// 					}).toFormat('LLL dd'))
-			// 				})
-			// 				.join('\n------\n'),
-			// 			inline: true,
-			// 		},
-			// 		{
-			// 			name: 'Days Away',
-			// 			value: bdayList
-			// 				.map(el => `Is In ${el.in} Day(s)`)
-			// 				.join('\n-----\n'),
-			// 			inline: true,
-			// 		}
-			// 	)
 			message.channel.send(embed)
 		})()
 	},
