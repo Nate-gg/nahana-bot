@@ -9,7 +9,7 @@ const fs = require('fs')
 
 //Local Files
 const { prefix, token, errorImg } = require('./config/config.json')
-const { startUp, rsp } = require('./functions')
+const { startUp, rsp, badWordFilter } = require('./functions')
 
 //Import all the commands and set them
 const cmdFiles = fs.readdirSync('./cmd').filter(file => file.endsWith('.js'))
@@ -23,6 +23,9 @@ for (const file of cmdFiles) {
 client.on('ready', startUp)
 
 client.on('message', message => {
+
+    badWordFilter(message)
+    
 	//set up the bot to receive commands
 	if (!message.content.startsWith(prefix) || message.author.bot) return
 	const args = message.content.slice(prefix.length).trim().split(/ +/)

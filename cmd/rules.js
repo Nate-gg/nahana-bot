@@ -11,7 +11,9 @@ module.exports = {
 1. Don't be rude
 2. Respect others in the community
 3. Harassment, insults, being toxic is not tolerated
-4. Keep NSFW material out of PG Chats. 
+4. Keep it SFW. 
+   - No NSFW media and / or topics outside of adult channels
+   - Keep the language on the clean side, mainly in general chat. Offtopic chats are a little more lenient, but still keep it on the cleaner side.
 
         
 A rule of thumb is if you did not have to agree to the NSFW warning **DO NOT** post NSFW content here. This may result in an instant ban as this is a mixed age server
