@@ -1,6 +1,9 @@
 const { client, Discord } = require('./discord')
 const cron = require('node-cron')
 
+const Filter = require('bad-words')
+const filter = new Filter()
+
 const fs = require('fs')
 const { DateTime } = require('luxon')
 
@@ -99,4 +102,23 @@ exports.bdayIsIn = (month, day) => {
 		year: year,
 	})
 	return bday.diff(today, ['days', 'hours']).toObject()
+}
+
+exports.badWordFilter = message => {
+
+    const chatsToPolice = ['528964687824551938', '759209717402435634']
+    const searchChannel = chatsToPolice.find(id => id === message.channel.id)
+
+    if(!searchChannel) { return }   
+
+    if(filter.isProfane(message)) {
+        const cleaned = filter.clean(message.content)
+        message.delete()
+        
+        let newMessage = `Watch your mouth\n\n`
+        newMessage += `\> ${cleaned}`
+
+        message.reply(newMessage)
+        
+    }
 }
