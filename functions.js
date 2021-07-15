@@ -112,7 +112,8 @@ exports.badWordFilter = message => {
 		return
 	}
 
-	filter.addWords('titty', 'carl')
+	filter.addWords('titty')
+	filter.removeWords('hell', 'balls')
 
 	if (filter.isProfane(message)) {
 		const cleaned = filter.clean(message.content)
