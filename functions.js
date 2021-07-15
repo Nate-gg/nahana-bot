@@ -91,7 +91,7 @@ exports.getBirthdays = (month, day) => {
 }
 
 exports.bdayIsIn = (month, day) => {
-	const today = DateTime.local().minus({day: 1})
+	const today = DateTime.local().minus({ day: 1 })
 	const year =
 		month < today.month
 			? today.plus({ year: 1 }).toFormat('yyyy')
@@ -105,20 +105,22 @@ exports.bdayIsIn = (month, day) => {
 }
 
 exports.badWordFilter = message => {
+	const chatsToPolice = ['528964687824551938', '759209717402435634']
+	const searchChannel = chatsToPolice.find(id => id === message.channel.id)
 
-    const chatsToPolice = ['528964687824551938', '759209717402435634']
-    const searchChannel = chatsToPolice.find(id => id === message.channel.id)
+	if (!searchChannel) {
+		return
+	}
 
-    if(!searchChannel) { return }   
+	filter.addWords('titty')
 
-    if(filter.isProfane(message)) {
-        const cleaned = filter.clean(message.content)
-        message.delete()
-        
-        let newMessage = `Watch your mouth\n\n`
-        newMessage += `\> ${cleaned}`
+	if (filter.isProfane(message)) {
+		const cleaned = filter.clean(message.content)
+		message.delete()
 
-        message.reply(newMessage)
-        
-    }
+		let newMessage = `Watch your mouth\n\n`
+		newMessage += `\> ${cleaned}`
+
+		message.reply(newMessage)
+	}
 }
