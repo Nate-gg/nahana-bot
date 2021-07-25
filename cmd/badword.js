@@ -1,6 +1,5 @@
 // ========= Bad Word Filter?
 
-const { Discord, client } = require('../discord')
 const { prefix, okImg } = require('../config/config.json')
 const path = require('path')
 //const where = require('../db/mike.json')
@@ -54,6 +53,18 @@ module.exports = {
 			}
 		)
 
-		client.destroy()
+		//const responses = [...where]
+		//const newResponse = { response: args.join(' ') }
+		//responses.push(newResponse)
+		// fs.writeFile(
+		// 	path.resolve(__dirname, '../db/mike.json'),
+		// 	JSON.stringify(responses, null, 2),
+		// 	err => {
+		// 		if (err) throw err
+		// 	}
+		// )
+		// message.channel.send(
+		// 	rsp('Thanks my dude. One more place to look.', okImg)
+		// )
 	},
 }
