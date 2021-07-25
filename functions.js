@@ -7,6 +7,16 @@ const filter = new Filter()
 const fs = require('fs')
 const { DateTime } = require('luxon')
 
+const BAD_WORDS_ADD = require('./db/badwordAdd.json')
+const BAD_WORDS_REMOVE = require('./db/badwordRemove.json')
+
+BAD_WORDS_ADD.forEach(word => {
+	filter.addWords(word)
+})
+BAD_WORDS_REMOVE.forEach(word => {
+	filter.removeWords(word)
+})
+
 exports.startUp = () => {
 	console.log(`Logged in as ${client.user.tag}`)
 	exports.setCron()
@@ -105,6 +115,7 @@ exports.bdayIsIn = (month, day) => {
 }
 
 exports.badWordFilter = message => {
+	//console.log(BAD_WORDS)
 	const chatsToPolice = ['528964687824551938', '759209717402435634']
 	const searchChannel = chatsToPolice.find(id => id === message.channel.id)
 
@@ -112,8 +123,7 @@ exports.badWordFilter = message => {
 		return
 	}
 
-	filter.addWords('titty')
-	filter.removeWords('hell', 'balls')
+	//filter.removeWords('hell', 'balls')
 
 	if (filter.isProfane(message)) {
 		const cleaned = filter.clean(message.content)
