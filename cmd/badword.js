@@ -23,16 +23,19 @@ module.exports = {
 		args.splice(0, 1)
 
 		let word = args.join(' ')
+		let res
 
 		switch (useCase) {
 			case 'add':
 				addWords.push(word)
 				removeWords = removeWords.filter(w => w != word)
+				res = `Thanks! ${word} will now be censored`
 
 				break
 			case 'remove':
 				removeWords.push(word)
 				addWords = addWords.filter(w => w != word)
+				res = `Thanks! ${word} will now be allowed`
 				break
 			default:
 				break
@@ -53,18 +56,6 @@ module.exports = {
 			}
 		)
 
-		//const responses = [...where]
-		//const newResponse = { response: args.join(' ') }
-		//responses.push(newResponse)
-		// fs.writeFile(
-		// 	path.resolve(__dirname, '../db/mike.json'),
-		// 	JSON.stringify(responses, null, 2),
-		// 	err => {
-		// 		if (err) throw err
-		// 	}
-		// )
-		// message.channel.send(
-		// 	rsp('Thanks my dude. One more place to look.', okImg)
-		// )
+		message.channel.send(rsp(res, okImg))
 	},
 }
