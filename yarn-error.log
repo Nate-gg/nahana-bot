@@ -1,0 +1,53 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\dotnet\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\natha\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\natha\AppData\Local\Microsoft\WindowsApps;C:\Users\natha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\natha\AppData\Local\GitHubDesktop\bin;C:\Users\natha\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, rmdir 'D:\Users\Apps\nahana-bot\node_modules\@discordjs\form-data\lib'
+
+npm manifest: 
+  {
+  	"name": "nahana_bot",
+  	"version": "1.0.0",
+  	"description": "for the luls",
+  	"main": "index.js",
+  	"homepage": "https://github.com/NahanaBanahnah/nahana-bot.git#readme",
+  	"bugs": "https://github.com/NahanaBanahnah/nahana-bot/issues",
+  	"scripts": {
+  		"start": "nodemon start"
+  	},
+  	"author": "Nate <nate@nahanacreative.com> (http://nahanacreative.com)",
+  	"license": "ISC",
+  	"dependencies": {
+  		"@discordjs/builders": "^0.7.0",
+  		"@discordjs/rest": "^0.1.0-canary.0",
+  		"axios": "^0.23.0",
+  		"bad-words": "^3.0.4",
+  		"discord-api-types": "^0.24.0",
+  		"discord.js": "^13.2.0",
+  		"luxon": "^2.0.2",
+  		"node-cron": "^3.0.0",
+  		"node-html-parser": "^5.1.0"
+  	},
+  	"devDependencies": {
+  		"eslint": "^8.1.0",
+  		"playwright": "^1.17.1"
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
