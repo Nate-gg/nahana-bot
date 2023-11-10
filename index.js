@@ -1,101 +1,60 @@
-'use strict'
-
 // Discord Libs
-const { client, Discord } = require('./discord')
-client.commands = new Discord.Collection()
-
-//Packages
+const { Client, GatewayIntentBits, Collection } = require('discord.js')
+const path = require('node:path')
 const fs = require('fs')
 
-//Local Files
-const { prefix, token, errorImg } = require('./config/config.json')
-const { startUp, rsp, badWordFilter } = require('./functions')
+require('dotenv').config()
 
-//Import all the commands and set them
-const cmdFiles = fs.readdirSync('./cmd').filter(file => file.endsWith('.js'))
-
-for (const file of cmdFiles) {
-	const cmd = require(`./cmd/${file}`)
-
-	client.commands.set(cmd.name, cmd)
-}
-
-client.on('ready', startUp)
-
-client.on('message', message => {
-
-    badWordFilter(message)
-    
-	//set up the bot to receive commands
-	if (!message.content.startsWith(prefix) || message.author.bot) return
-	const args = message.content.slice(prefix.length).trim().split(/ +/)
-	const cmdName = args.shift().toLowerCase()
-
-	if (!client.commands.has(cmdName)) return
-	const cmd = client.commands.get(cmdName)
-
-	//check if the command requires roles and check against the users roles
-	if (cmd.roles) {
-		let hasRole = false
-
-		if (!Array.isArray(cmd.roles)) {
-			return message.channel.send(
-				rsp('Something Broke ... Tell Nahana', errorImg)
-			)
-		}
-		cmd.roles.map(role => {
-			if (message.member.roles.cache.has(role)) {
-				hasRole = true
-			}
-		})
-
-		if (!hasRole) {
-			return message.channel.send(
-				rsp(
-					'You don`t have this power.',
-					'https://cdn.discordapp.com/emojis/595733409427488768.png?v=1'
-				)
-			)
-		}
-	}
-
-	//check if the command has channel restrictions
-	if (cmd.channels) {
-		let inChannel = false
-
-		if (!Array.isArray(cmd.channels)) {
-			return message.channel.send(
-				rsp('Something Broke ... Tell Nahana', errorImg)
-			)
-		}
-		cmd.channels.map(channel => {
-			if (message.channel.id === channel) {
-				inChannel = true
-			}
-		})
-
-		if (!inChannel) {
-			return
-		}
-	}
-
-	//check if the command needs arguments
-	if (cmd.args && !args.length) {
-		let reply = 'I need More Info :/'
-		if (cmd.usage) {
-			reply = rsp(cmd.usage, errorImg)
-		}
-		return message.channel.send(reply)
-	}
-
-	try {
-		cmd.execute(message, args)
-	} catch (error) {
-		console.error(error)
-		return message.channel.send(
-			rsp('Something Broke ... Tell Nahana', errorImg)
-		)
-	}
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessageReactions,
+	],
 })
 
-client.login(token)
+/**
+ * ===== SET UP SLASH COMMANDS
+ */
+client.commands = new Collection()
+
+const commandsPath = path.join(__dirname, 'commands')
+const commandFiles = fs
+	.readdirSync(commandsPath)
+	.filter(file => file.endsWith('.js'))
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file)
+	const command = require(filePath)
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command)
+	} else {
+		console.log(
+			`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+		)
+	}
+}
+
+/**
+ * ===== SET UP EVENTS
+ */
+const eventsPath = path.join(__dirname, 'events')
+const eventFiles = fs
+	.readdirSync(eventsPath)
+	.filter(file => file.endsWith('.js'))
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file)
+	const event = require(filePath)
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args))
+	} else {
+		client.on(event.name, (...args) => event.execute(...args))
+	}
+}
+
+client.login(process.env.TOKEN)
