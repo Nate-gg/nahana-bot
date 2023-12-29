@@ -3,7 +3,7 @@
  */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-const { addSantaUser } = require('../utils/database')
+const { addSantaUser } = require('../utils/dbSanta')
 const { OK_IMG, ERROR_IMG } = require('../config/config.json')
 
 module.exports = {
@@ -39,6 +39,7 @@ module.exports = {
 
 		await interaction.reply({
 			embeds: [embed],
+			ephemeral: true,
 		})
 	},
 }
