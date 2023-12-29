@@ -5,6 +5,7 @@ const {
 	Collection,
 	Partials,
 } = require('discord.js')
+
 const path = require('node:path')
 const fs = require('fs')
 
@@ -21,6 +22,7 @@ const client = new Client({
 		GatewayIntentBits.DirectMessages,
 	],
 	partials: [Partials.Channel],
+	],
 })
 
 /**
