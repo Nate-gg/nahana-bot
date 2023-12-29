@@ -106,3 +106,16 @@ exports.removeReactionRole = async role => {
 
 	return result
 }
+
+exports.addSantaUser = async userId => {
+	const db = await this.startDb()
+
+	const result = await db.all(`SELECT * from santaUsers where id = ${userId}`)
+
+	if (result.length === 0) {
+		await db.run('INSERT INTO santaUsers (id) VALUES (?)', userId)
+		return true
+	} else {
+		return false
+	}
+}
