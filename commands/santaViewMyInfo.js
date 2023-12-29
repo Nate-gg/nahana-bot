@@ -3,7 +3,7 @@
  */
 
 const { SlashCommandBuilder } = require('discord.js')
-const { getSantaUserInfo } = require('../utils/database')
+const { getSantaUserInfo } = require('../utils/dbSanta')
 const { santaUserEmbed } = require('../utils/embeds')
 
 module.exports = {
