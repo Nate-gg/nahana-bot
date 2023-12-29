@@ -119,3 +119,24 @@ exports.addSantaUser = async userId => {
 		return false
 	}
 }
+
+exports.updateSantaUserInfo = async (obj, userId) => {
+	const db = await this.startDb()
+	const keys = []
+	const params = []
+
+	Object.keys(obj).forEach(e => {
+		if (obj[e]) {
+			keys.push(`${e} = ?`)
+			params.push(obj[e])
+		}
+	})
+	params.push(userId)
+
+	await db.run(
+		`UPDATE santaUsers SET ${keys.toString()} where id = ?`,
+		params
+	)
+
+	return
+}

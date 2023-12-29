@@ -16,6 +16,6 @@ module.exports = {
 		 * IF NOT GUILD ITS A DM
 		 * SET UP DMS FOR SANTA
 		 */
-		console.log(client.guildId)
+		// console.log(client.guildId)
 	},
 }
