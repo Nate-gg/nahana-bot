@@ -106,3 +106,47 @@ exports.removeReactionRole = async role => {
 
 	return result
 }
+
+exports.addSantaUser = async userId => {
+	const db = await this.startDb()
+
+	const result = await db.all(`SELECT * from santaUsers where id = ${userId}`)
+
+	if (result.length === 0) {
+		await db.run('INSERT INTO santaUsers (id) VALUES (?)', userId)
+		return true
+	} else {
+		return false
+	}
+}
+
+exports.updateSantaUserInfo = async (obj, userId) => {
+	const db = await this.startDb()
+	const keys = []
+	const params = []
+
+	Object.keys(obj).forEach(e => {
+		if (obj[e]) {
+			keys.push(`${e} = ?`)
+			params.push(obj[e])
+		}
+	})
+	console.log(Date.now())
+	params.push(Date.now())
+	params.push(userId)
+
+	await db.run(
+		`UPDATE santaUsers SET ${keys.toString()}, lastUpdate = ? where id = ?`,
+		params
+	)
+
+	return
+}
+
+exports.getSantaUserInfo = async userId => {
+	const db = await this.startDb()
+
+	const result = await db.get(`SELECT * from santaUsers WHERE id = ${userId}`)
+
+	return result
+}
