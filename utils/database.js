@@ -131,17 +131,21 @@ exports.updateSantaUserInfo = async (obj, userId) => {
 			params.push(obj[e])
 		}
 	})
+
 	console.log(Date.now())
 	params.push(Date.now())
 	params.push(userId)
 
 	await db.run(
 		`UPDATE santaUsers SET ${keys.toString()}, lastUpdate = ? where id = ?`,
+
 		params
 	)
 
 	return
 }
+
+
 
 exports.getSantaUserInfo = async userId => {
 	const db = await this.startDb()
@@ -150,3 +154,4 @@ exports.getSantaUserInfo = async userId => {
 
 	return result
 }
+
