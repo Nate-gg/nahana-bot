@@ -9,14 +9,12 @@ const { Events, EmbedBuilder } = require('discord.js')
 
 const { OK_IMG } = require('../config/config.json')
 
-// const sqlite3 = require('sqlite3').verbose()
+const { clickSantaNotIn, clickSantaIn } = require('../utils/btnSanta')
 
 module.exports = {
 	name: Events.InteractionCreate,
 	once: false,
 	async execute(interaction) {
-		// if (!interaction.isChatInputCommand()) return
-
 		if (interaction.isCommand()) {
 			const command = interaction.client.commands.get(
 				interaction.commandName
@@ -77,9 +75,15 @@ module.exports = {
 					interaction.member.roles.add(roleId)
 				}
 			}
-			// const button = interaction.client.buttons.get(interaction.customId)
+			switch (id) {
+				case 'santaNotIn':
+					clickSantaNotIn(interaction)
+					break
 
-			// console.log(button)
+				case 'santaIn':
+					clickSantaIn(interaction)
+					break
+			}
 		}
 	},
 }
