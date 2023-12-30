@@ -24,8 +24,6 @@ module.exports = {
 
 		const embed = new EmbedBuilder().setColor('dc5308')
 
-		console.log(userAdd)
-
 		if (!userAdd.error) {
 			const guild = interaction.guild
 			const member = guild.members.cache.get(

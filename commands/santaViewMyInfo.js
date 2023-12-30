@@ -16,7 +16,7 @@ module.exports = {
 
 		let user = interaction.guild.members.cache.get(userObj.UserID)
 
-		const embed = santaUserEmbed(userObj, user)
+		const embed = santaUserEmbed(userObj, user.user)
 
 		await interaction.reply({
 			embeds: [embed],

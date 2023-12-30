@@ -1,16 +1,4 @@
-const sqlite3 = require('sqlite3')
-const { open } = require('sqlite')
-
 const { supabase } = require('../utils/supabaseClient')
-
-exports.startDb = async () => {
-	const db = await open({
-		filename: './db/bunchOhs.db',
-		driver: sqlite3.Database,
-	})
-
-	return db
-}
 
 exports.addSantaUser = async userId => {
 	const { error } = await supabase
@@ -53,4 +41,45 @@ exports.addSantaRestriction = async (userOne, userTwo) => {
 		error: error ? true : false,
 		message: error ? error.details : 'success',
 	}
+}
+
+exports.checkActiveDrawing = async () => {
+	const { data } = await supabase
+		.from('NB.SantaDrawing')
+		.select()
+		.eq('Active', true)
+
+	return data.length > 0 ? true : false
+}
+
+exports.addSantaDrawing = async year => {
+	const { data: newRow } = await supabase
+		.from('NB.SantaDrawing')
+		// .insert({ Year: year, Active: true })
+		.insert({ Year: year })
+		.select()
+		.single()
+
+	const { data } = await supabase
+		.from('NB.SantaUsers')
+		.select('UserID')
+		.neq('Inactive', true)
+
+	const insert = data.map(item => {
+		return {
+			UserID: item.UserID,
+			Drawing: newRow.ID,
+		}
+	})
+
+	await supabase.from('NB.SantaTempPool').insert(insert)
+
+	return data
+}
+
+exports.setSantaParticipating = async (participating, userId) => {
+	const { error } = await supabase
+		.from('NB.SantaTempPool')
+		.update({ Participating: participating })
+		.eq('UserID', userId)
 }

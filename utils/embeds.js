@@ -1,8 +1,7 @@
 const { EmbedBuilder } = require('discord.js')
 
 exports.santaUserEmbed = (userObj, user) => {
-	const name = user.user.nickname ? user.user.nickname : user.user.username
-	console.log()
+	const name = user.nickname ? user.nickname : user.username
 
 	const embed = new EmbedBuilder()
 		.setColor('dc5308')
