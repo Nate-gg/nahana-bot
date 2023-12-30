@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3')
 const { open } = require('sqlite')
 
+const { supabase } = require('../utils/supabaseClient')
+
 exports.startDb = async () => {
 	const db = await open({
 		filename: './db/bunchOhs.db',
@@ -11,61 +13,44 @@ exports.startDb = async () => {
 }
 
 exports.addSantaUser = async userId => {
-	const db = await this.startDb()
+	const { error } = await supabase
+		.from('NB.SantaUsers')
+		.insert({ UserID: userId })
 
-	const result = await db.all(`SELECT * from santaUsers where id = ${userId}`)
-
-	if (result.length === 0) {
-		await db.run('INSERT INTO santaUsers (id) VALUES (?)', userId)
-		return true
-	} else {
-		return false
+	return {
+		error: error ? true : false,
+		message: error ? error.details : 'success',
 	}
 }
 
 exports.updateSantaUserInfo = async (obj, userId) => {
-	const db = await this.startDb()
-	const keys = []
-	const params = []
-
-	Object.keys(obj).forEach(e => {
-		if (obj[e]) {
-			keys.push(`${e} = ?`)
-			params.push(obj[e])
-		}
-	})
-
-	params.push(Date.now())
-	params.push(userId)
-
-	await db.run(
-		`UPDATE santaUsers SET ${keys.toString()}, lastUpdate = ? where id = ?`,
-
-		params
+	const insert = Object.fromEntries(
+		Object.entries(obj).filter(([_, v]) => v != null)
 	)
+	insert['LastUpdate'] = Date.now()
+
+	await supabase.from('NB.SantaUsers').update(insert).eq('UserID', userId)
 
 	return
 }
 
 exports.getSantaUserInfo = async userId => {
-	const db = await this.startDb()
+	const { data } = await supabase
+		.from('NB.SantaUsers')
+		.select()
+		.eq('UserID', userId)
+		.single()
 
-	const result = await db.get(`SELECT * from santaUsers WHERE id = ${userId}`)
-
-	return result
+	return data
 }
 
 exports.addSantaRestriction = async (userOne, userTwo) => {
-	const db = await this.startDb()
+	const { error } = await supabase
+		.from('NB.SantaRestrictions')
+		.insert({ UserOne: userOne, UserTwo: userTwo })
 
-	try {
-		const result = await db.run(
-			'INSERT into santaRestrictions (userOne, userTwo) values (?, ?)',
-			[userOne, userTwo]
-		)
-
-		return result
-	} catch (e) {
-		return false
+	return {
+		error: error ? true : false,
+		message: error ? error.details : 'success',
 	}
 }

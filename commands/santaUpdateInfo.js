@@ -39,14 +39,14 @@ module.exports = {
 
 	async execute(interaction) {
 		const userObj = {
-			name: interaction.options.getString('name'),
-			address: interaction.options.getString('street'),
-			city: interaction.options.getString('city'),
-			state: interaction.options.getString('state'),
-			zip: interaction.options.getString('postal'),
-			size: interaction.options.getString('size'),
-			interests: interaction.options.getString('interests'),
-			instructions: interaction.options.getString('instructions'),
+			Name: interaction.options.getString('name'),
+			Street: interaction.options.getString('street'),
+			City: interaction.options.getString('city'),
+			State: interaction.options.getString('state'),
+			Zip: interaction.options.getString('postal'),
+			Size: interaction.options.getString('size'),
+			Interests: interaction.options.getString('interests'),
+			Instructions: interaction.options.getString('instructions'),
 		}
 
 		await updateSantaUserInfo(userObj, interaction.user.id)

@@ -9,22 +9,22 @@ exports.santaUserEmbed = (userObj, user) => {
 		.setTitle(`${name}'s Info`)
 		.addFields({
 			name: '🏠 Address',
-			value: `${userObj.name}\r${userObj.address}\r${userObj.city} ${userObj.state} ${userObj.zip}`,
+			value: `${userObj.Name}\r${userObj.Address}\r${userObj.City} ${userObj.State} ${userObj.Zip}`,
 		})
 
-	if (userObj.instructions) {
+	if (userObj.Instructions) {
 		embed.addFields({
 			name: '❗Special Shipping Instructions',
-			value: `${userObj.instructions}`,
+			value: `${userObj.Instructions}`,
 		})
 	}
 
 	embed
 		.addFields({
 			name: '💕 Interests',
-			value: `${userObj.interests}`,
+			value: `${userObj.Interests}`,
 		})
-		.setTimestamp(userObj.lastUpdate)
+		.setTimestamp(userObj.LastUpdate)
 		.setThumbnail(user.displayAvatarURL())
 
 	return embed

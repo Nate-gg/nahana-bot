@@ -14,7 +14,7 @@ module.exports = {
 	async execute(interaction) {
 		const userObj = await getSantaUserInfo(interaction.user.id)
 
-		let user = interaction.guild.members.cache.get(userObj.id)
+		let user = interaction.guild.members.cache.get(userObj.UserID)
 
 		const embed = santaUserEmbed(userObj, user)
 

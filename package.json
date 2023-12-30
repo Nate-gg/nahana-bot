@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@discordjs/builders": "^0.7.0",
 		"@discordjs/rest": "^0.1.0-canary.0",
+		"@supabase/supabase-js": "^2.39.1",
 		"axios": "^0.23.0",
 		"bad-words": "^3.0.4",
 		"discord-api-types": "^0.24.0",

@@ -24,7 +24,9 @@ module.exports = {
 
 		const embed = new EmbedBuilder().setColor('dc5308')
 
-		if (userAdd) {
+		console.log(userAdd)
+
+		if (!userAdd.error) {
 			const guild = interaction.guild
 			const member = guild.members.cache.get(
 				interaction.options.getUser('user').id
@@ -34,7 +36,10 @@ module.exports = {
 
 			embed.setTitle('Added!').setThumbnail(OK_IMG)
 		} else {
-			embed.setTitle('User Already Exists').setThumbnail(ERROR_IMG)
+			embed
+				.setTitle('Error')
+				.setDescription(userAdd.message)
+				.setThumbnail(ERROR_IMG)
 		}
 
 		await interaction.reply({

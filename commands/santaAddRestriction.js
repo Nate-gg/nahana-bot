@@ -30,11 +30,12 @@ module.exports = {
 		const resp = await addSantaRestriction(userOne.id, userTwo.id)
 		const embed = new EmbedBuilder().setColor('dc5308').setTitle('Added')
 
-		if (resp) {
+		if (!resp.error) {
 			embed.setTitle('Added!').setThumbnail(OK_IMG)
 		} else {
 			embed
-				.setTitle('There was an error adding this restriction')
+				.setTitle('Error')
+				.setDescription(resp.message)
 				.setThumbnail(ERROR_IMG)
 		}
 
