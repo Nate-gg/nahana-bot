@@ -10,6 +10,8 @@ const { Events, EmbedBuilder } = require('discord.js')
 const { OK_IMG } = require('../config/config.json')
 
 const { clickSantaNotIn, clickSantaIn } = require('../utils/btnSanta')
+const { getAllDrawings, getDrawingPicks } = require('../utils/dbSanta')
+const { buildHistoryList } = require('../utils/fnSanta')
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -75,6 +77,29 @@ module.exports = {
 					interaction.member.roles.add(roleId)
 				}
 			}
+
+			if (id.match(/santaHistory/)) {
+				const split = id.split('-')
+				const year = parseInt(split[1])
+
+				const drawings = await getAllDrawings()
+				const currentDrawing = drawings.find(item => item.Year === year)
+				const current = await getDrawingPicks(currentDrawing.ID)
+
+				const historyObj = buildHistoryList(
+					year,
+					current,
+					drawings,
+					interaction
+				)
+
+				await interaction.update({
+					embeds: [historyObj.embed],
+
+					components: [historyObj.row],
+				})
+			}
+
 			switch (id) {
 				case 'santaNotIn':
 					clickSantaNotIn(interaction)
