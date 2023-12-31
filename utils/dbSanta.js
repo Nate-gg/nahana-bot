@@ -78,8 +78,29 @@ exports.addSantaDrawing = async year => {
 }
 
 exports.setSantaParticipating = async (participating, userId) => {
-	const { error } = await supabase
+	await supabase
 		.from('NB.SantaTempPool')
 		.update({ Participating: participating })
 		.eq('UserID', userId)
+
+	return
+}
+
+exports.getAllDrawings = async () => {
+	const { data } = await supabase
+		.from('NB.SantaDrawing')
+		.select()
+		.order('Year', { ascending: false })
+		.eq('Active', false)
+
+	return data
+}
+
+exports.getDrawingPicks = async drawingId => {
+	const { data } = await supabase
+		.from('NB.SantaPicks')
+		.select()
+		.eq('Drawing', drawingId)
+
+	return data
 }
