@@ -76,19 +76,6 @@ module.exports = {
 				.setDescription('DMs are now going out to check whos playing!!')
 		}
 
-		// if (!userAdd.error) {
-		// 	const guild = interaction.guild
-		// 	const member = guild.members.cache.get(
-		// 		interaction.options.getUser('user').id
-		// 	)
-		// 	const role = guild.roles.cache.find(role => role.id === roleId)
-		// 	member.roles.add(role)
-
-		//
-		// } else {
-
-		// }
-
 		await interaction.reply({
 			embeds: [embed],
 			ephemeral: true,
