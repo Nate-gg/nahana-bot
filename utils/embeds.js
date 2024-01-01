@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js')
 
 exports.santaUserEmbed = (userObj, user) => {
-	const name = user.nickname ? user.nickname : user.username
+	const name = user.nickname ? user.nickname : user.user.username
 
 	const embed = new EmbedBuilder()
 		.setColor('dc5308')
@@ -22,6 +22,10 @@ exports.santaUserEmbed = (userObj, user) => {
 		.addFields({
 			name: '💕 Interests',
 			value: `${userObj.Interests}`,
+		})
+		.addFields({
+			name: '👕 Size',
+			value: `${userObj.Size}`,
 		})
 		.setTimestamp(userObj.LastUpdate)
 		.setThumbnail(user.displayAvatarURL())
