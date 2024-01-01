@@ -123,7 +123,7 @@ module.exports = {
 				let pickedUser = interaction.guild.members.cache.get(item.pick)
 				const pickedObj = await getSantaUserInfo(item.pick)
 				user.send({
-					content: `🎁🎄 It's Sneaky Santa Time 🎄🎁\r\rBelow Is Who You Picked!! You can ask them questions by using \santa-ask`,
+					content: `🎁🎄 It's Sneaky Santa Time 🎄🎁\r\rBelow Is Who You Picked!! You can ask them questions by using /santa-ask`,
 					embeds: [santaUserEmbed(pickedObj, pickedUser)],
 				})
 

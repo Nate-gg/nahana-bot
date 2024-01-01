@@ -147,3 +147,14 @@ exports.getDrawingPicks = async drawingId => {
 
 	return data
 }
+
+exports.getUserPick = async userID => {
+	const { data } = await supabase
+		.from('NB-SantaPicks')
+		.select('*, NB-SantaDrawing!inner(ID)')
+		.eq('UserID', userID)
+		.is('NB-SantaDrawing.Active', true)
+		.single()
+
+	return data
+}
