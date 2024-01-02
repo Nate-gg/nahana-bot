@@ -13,7 +13,7 @@ exports.addSantaUser = async userId => {
 
 exports.updateSantaUserInfo = async (obj, userId) => {
 	const insert = Object.fromEntries(
-		Object.entries(obj).filter(([_, v]) => v != null)
+		Object.entries(obj).filter(([_, v]) => v != null) // eslint-disable-line no-unused-vars
 	)
 	insert['LastUpdate'] = Date.now()
 
@@ -117,7 +117,7 @@ exports.getRestrictions = async () => {
 }
 
 exports.getPreviousDraws = async () => {
-	const { data, error } = await supabase
+	const { data } = await supabase
 		.from('NB-SantaPicks')
 		.select(
 			`
@@ -149,7 +149,7 @@ exports.getDrawingPicks = async drawingId => {
 }
 
 exports.getUserPick = async userID => {
-	const { data, error } = await supabase
+	const { data } = await supabase
 		.from('NB-SantaPicks')
 		.select('*, NB-SantaDrawing!inner(ID)')
 		.eq('UserID', userID)
@@ -171,7 +171,7 @@ exports.getPickedBy = async userID => {
 }
 
 exports.addPackage = async (from, to, date, courier, tracking, notes) => {
-	const { data, error } = await supabase.from('NB-SantaPackages').insert({
+	await supabase.from('NB-SantaPackages').insert({
 		From: from,
 		To: to,
 		Date: date,
@@ -181,4 +181,23 @@ exports.addPackage = async (from, to, date, courier, tracking, notes) => {
 	})
 
 	return
+}
+
+exports.getPackages = async userID => {
+	const { data } = await supabase
+		.from('NB-SantaPackages')
+		.select()
+		.eq('To', userID)
+		.order('PackageID')
+
+	return data
+}
+
+exports.setPackageReceived = async (packageID, received) => {
+	const { data } = await supabase
+		.from('NB-SantaPackages')
+		.update({ Received: received })
+		.eq('PackageID', packageID)
+
+	return data
 }
