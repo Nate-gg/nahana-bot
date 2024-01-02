@@ -50,3 +50,25 @@ exports.buildHistoryList = (year, obj, drawings, interaction) => {
 		row: row,
 	}
 }
+
+exports.trackingButton = (courier, tracking) => {
+	const courierLinks = [
+		{
+			courier: 'usps',
+			link: 'https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels={tracking}%2C&tABt=false',
+		},
+		{
+			courier: 'fedex',
+			link: 'https://www.fedex.com/fedextrack/?trknbr={tracking}',
+		},
+		{
+			courier: 'ups',
+			link: 'https://www.ups.com/track?track=yes&trackNums={tracking}',
+		},
+	]
+
+	const index = courierLinks.findIndex(item => item.courier === courier)
+	const link = courierLinks[index].link.replace('{tracking}', tracking)
+
+	return `[${tracking}](${link})`
+}

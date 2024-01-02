@@ -149,7 +149,7 @@ exports.getDrawingPicks = async drawingId => {
 }
 
 exports.getUserPick = async userID => {
-	const { data } = await supabase
+	const { data, error } = await supabase
 		.from('NB-SantaPicks')
 		.select('*, NB-SantaDrawing!inner(ID)')
 		.eq('UserID', userID)
@@ -168,4 +168,17 @@ exports.getPickedBy = async userID => {
 		.single()
 
 	return data
+}
+
+exports.addPackage = async (from, to, date, courier, tracking, notes) => {
+	const { data, error } = await supabase.from('NB-SantaPackages').insert({
+		From: from,
+		To: to,
+		Date: date,
+		Courier: courier,
+		Tracking: tracking,
+		Notes: notes,
+	})
+
+	return
 }
