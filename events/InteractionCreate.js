@@ -10,8 +10,12 @@ const { Events, EmbedBuilder } = require('discord.js')
 const { OK_IMG } = require('../config/config.json')
 
 const { clickSantaNotIn, clickSantaIn } = require('../utils/btnSanta')
-const { getAllDrawings, getDrawingPicks } = require('../utils/dbSanta')
-const { buildHistoryList } = require('../utils/fnSanta')
+const {
+	getAllDrawings,
+	getDrawingPicks,
+	setPackageReceived,
+} = require('../utils/dbSanta')
+const { buildHistoryList, packageList } = require('../utils/fnSanta')
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -95,8 +99,35 @@ module.exports = {
 
 				await interaction.update({
 					embeds: [historyObj.embed],
-
 					components: [historyObj.row],
+				})
+			}
+
+			if (id.match(/santaPackage/)) {
+				const split = id.split('-')
+				const userID = split[1]
+				const page = parseInt(split[2])
+				const packageObj = await packageList(userID, page)
+
+				await interaction.update({
+					embeds: [packageObj.embed],
+					components: [packageObj.row],
+				})
+			}
+			if (id.match(/santaReceived/)) {
+				const split = id.split('_')
+				const packageID = split[1]
+				const received = split[2] === 'false' ? false : true
+				const userID = split[3]
+				const page = split[4]
+
+				await setPackageReceived(packageID, received)
+
+				const packageObj = await packageList(userID, parseInt(page))
+
+				await interaction.update({
+					embeds: [packageObj.embed],
+					components: [packageObj.row],
 				})
 			}
 

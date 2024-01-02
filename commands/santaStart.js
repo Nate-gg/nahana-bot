@@ -73,7 +73,9 @@ module.exports = {
 			embed
 				.setTitle('Started!')
 				.setThumbnail(OK_IMG)
-				.setDescription('DMs are now going out to check whos playing!!')
+				.setDescription(
+					`DMs are now going out to check who's playing!!`
+				)
 		}
 
 		await interaction.reply({
