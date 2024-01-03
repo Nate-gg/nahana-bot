@@ -1,29 +1,34 @@
 const { EmbedBuilder } = require('discord.js')
 
 exports.santaUserEmbed = (userObj, user) => {
-	const name = user.user.nickname ? user.user.nickname : user.user.username
+	const name = user.nickname ? user.nickname : user.user.username
 
 	const embed = new EmbedBuilder()
 		.setColor('dc5308')
 		.setTitle(`${name}'s Info`)
 		.addFields({
-			name: 'Address',
-			value: `${userObj.name}\r${userObj.address}\r${userObj.city} ${userObj.state} ${userObj.zip}`,
+			name: '🏠 Address',
+			value: `${userObj.Name}\r${userObj.Address}\r${userObj.City} ${userObj.State} ${userObj.Zip}`,
 		})
 
-	if (userObj.instructions) {
+	if (userObj.Instructions) {
 		embed.addFields({
-			name: 'Special Shipping Instructions',
-			value: `${userObj.instructions}`,
+			name: '❗Special Shipping Instructions',
+			value: `${userObj.Instructions}`,
 		})
 	}
 
 	embed
 		.addFields({
-			name: 'Interests',
-			value: `${userObj.interests}`,
+			name: '💕 Interests',
+			value: `${userObj.Interests}`,
 		})
-		.setTimestamp(userObj.lastUpdate)
+		.addFields({
+			name: '👕 Size',
+			value: `${userObj.Size}`,
+		})
+		.setTimestamp(userObj.LastUpdate)
+		.setThumbnail(user.displayAvatarURL())
 
 	return embed
 }

@@ -9,14 +9,18 @@ const { Events, EmbedBuilder } = require('discord.js')
 
 const { OK_IMG } = require('../config/config.json')
 
-// const sqlite3 = require('sqlite3').verbose()
+const { clickSantaNotIn, clickSantaIn } = require('../utils/btnSanta')
+const {
+	getAllDrawings,
+	getDrawingPicks,
+	setPackageReceived,
+} = require('../utils/dbSanta')
+const { buildHistoryList, packageList } = require('../utils/fnSanta')
 
 module.exports = {
 	name: Events.InteractionCreate,
 	once: false,
 	async execute(interaction) {
-		// if (!interaction.isChatInputCommand()) return
-
 		if (interaction.isCommand()) {
 			const command = interaction.client.commands.get(
 				interaction.commandName
@@ -77,9 +81,65 @@ module.exports = {
 					interaction.member.roles.add(roleId)
 				}
 			}
-			// const button = interaction.client.buttons.get(interaction.customId)
 
-			// console.log(button)
+			if (id.match(/santaHistory/)) {
+				const split = id.split('-')
+				const year = parseInt(split[1])
+
+				const drawings = await getAllDrawings()
+				const currentDrawing = drawings.find(item => item.Year === year)
+				const current = await getDrawingPicks(currentDrawing.ID)
+
+				const historyObj = buildHistoryList(
+					year,
+					current,
+					drawings,
+					interaction
+				)
+
+				await interaction.update({
+					embeds: [historyObj.embed],
+					components: [historyObj.row],
+				})
+			}
+
+			if (id.match(/santaPackage/)) {
+				const split = id.split('-')
+				const userID = split[1]
+				const page = parseInt(split[2])
+				const packageObj = await packageList(userID, page)
+
+				await interaction.update({
+					embeds: [packageObj.embed],
+					components: [packageObj.row],
+				})
+			}
+			if (id.match(/santaReceived/)) {
+				const split = id.split('_')
+				const packageID = split[1]
+				const received = split[2] === 'false' ? false : true
+				const userID = split[3]
+				const page = split[4]
+
+				await setPackageReceived(packageID, received)
+
+				const packageObj = await packageList(userID, parseInt(page))
+
+				await interaction.update({
+					embeds: [packageObj.embed],
+					components: [packageObj.row],
+				})
+			}
+
+			switch (id) {
+				case 'santaNotIn':
+					clickSantaNotIn(interaction)
+					break
+
+				case 'santaIn':
+					clickSantaIn(interaction)
+					break
+			}
 		}
 	},
 }
