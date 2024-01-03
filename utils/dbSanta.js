@@ -201,3 +201,12 @@ exports.setPackageReceived = async (packageID, received) => {
 
 	return data
 }
+
+exports.santaGetProgress = async () => {
+	const { data } = await supabase
+		.from('NB-SantaUsers')
+		.select('*, NB-SantaPackages!NB-SantaPackages_To_fkey (To))')
+		.is('Inactive', false)
+
+	return data
+}
