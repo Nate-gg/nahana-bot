@@ -11,6 +11,7 @@ const {
 } = require('discord.js')
 const { checkActiveDrawing, addSantaDrawing } = require('../utils/dbSanta')
 const { OK_IMG, ERROR_IMG } = require('../config/config.json')
+const { disallowDM } = require('../utils/fnGlobal')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,6 +22,13 @@ module.exports = {
 		),
 
 	async execute(interaction) {
+		const DM = disallowDM(interaction.guildId)
+		if (DM) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const year = interaction.options.getString('year')
 
 		const isActive = await checkActiveDrawing()

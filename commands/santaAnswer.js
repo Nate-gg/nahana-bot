@@ -5,6 +5,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { getPickedBy } = require('../utils/dbSanta')
 const { OK_IMG } = require('../config/config.json')
+const { santaDisallowDM } = require('../utils/fnSanta')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,6 +19,14 @@ module.exports = {
 		),
 
 	async execute(interaction) {
+		const DM = await santaDisallowDM(interaction.user.id)
+
+		if (DM.notAllowed) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const answer = interaction.options.getString('answer')
 		const pickedMe = await getPickedBy(interaction.user.id)
 		const user = await interaction.client.users.fetch(pickedMe.UserID)

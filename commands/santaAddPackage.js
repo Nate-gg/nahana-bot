@@ -5,7 +5,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { getUserPick, addPackage } = require('../utils/dbSanta')
 const { OK_IMG } = require('../config/config.json')
-const { trackingButton } = require('../utils/fnSanta')
+const { trackingButton, santaDisallowDM } = require('../utils/fnSanta')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -35,6 +35,14 @@ module.exports = {
 		),
 
 	async execute(interaction) {
+		const DM = await santaDisallowDM(interaction.user.id)
+
+		if (DM.notAllowed) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const date = interaction.options.getString('date')
 		const courier = interaction.options.getString('courier')
 		const tracking = interaction.options.getString('tracking')

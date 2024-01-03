@@ -4,7 +4,7 @@
 
 const { SlashCommandBuilder } = require('discord.js')
 
-const { packageList } = require('../utils/fnSanta')
+const { packageList, santaDisallowDM } = require('../utils/fnSanta')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,6 +12,14 @@ module.exports = {
 		.setDescription('View Your Packages'),
 
 	async execute(interaction) {
+		const DM = await santaDisallowDM(interaction.user.id)
+
+		if (DM.notAllowed) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const userID = interaction.user.id
 
 		const packageObj = await packageList(userID, 0)

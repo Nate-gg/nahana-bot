@@ -4,7 +4,9 @@ const {
 	ButtonStyle,
 	ActionRowBuilder,
 } = require('discord.js')
-const { getPackages } = require('./dbSanta')
+
+const { getPackages, getSantaUserInfo } = require('./dbSanta')
+const { ERROR_IMG } = require('../config/config.json')
 
 exports.buildHistoryList = (year, obj, drawings, interaction) => {
 	const embed = new EmbedBuilder()
@@ -161,5 +163,24 @@ exports.packageList = async (userID, page) => {
 	return {
 		embed: embed,
 		row: row,
+	}
+}
+
+exports.santaDisallowDM = async userID => {
+	const user = await getSantaUserInfo(userID)
+
+	if (!user) {
+		const embed = new EmbedBuilder()
+			.setColor('dc5308')
+			.setTitle('Not Allowed')
+			.setDescription('Sorry, you can use this command')
+			.setImage(ERROR_IMG)
+
+		return {
+			notAllowed: true,
+			embed: embed,
+		}
+	} else {
+		return false
 	}
 }

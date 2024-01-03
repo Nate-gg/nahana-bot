@@ -14,6 +14,7 @@ const {
 const { OK_IMG, ERROR_IMG } = require('../config/config.json')
 const { santaUserEmbed } = require('../utils/embeds')
 const { supabase } = require('../utils/supabaseClient')
+const { disallowDM } = require('../utils/fnGlobal')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,6 +22,13 @@ module.exports = {
 		.setDescription('Draws Names'),
 
 	async execute(interaction) {
+		const DM = disallowDM(interaction.guildId)
+		if (DM) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const embed = new EmbedBuilder().setColor('dc5308')
 		const participants = await getSantaParticipating()
 

@@ -5,6 +5,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { updateSantaUserInfo } = require('../utils/dbSanta')
 const { OK_IMG } = require('../config/config.json')
+const { santaDisallowDM } = require('../utils/fnSanta')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -38,6 +39,14 @@ module.exports = {
 		),
 
 	async execute(interaction) {
+		const DM = await santaDisallowDM(interaction.user.id)
+
+		if (DM.notAllowed) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		const userObj = {
 			Name: interaction.options.getString('name'),
 			Street: interaction.options.getString('street'),

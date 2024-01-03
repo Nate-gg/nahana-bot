@@ -4,6 +4,7 @@
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { santaGetProgress } = require('../utils/dbSanta')
+const { disallowDM } = require('../utils/fnGlobal')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,6 +12,13 @@ module.exports = {
 		.setDescription('View The Gifting Progress'),
 
 	async execute(interaction) {
+		const DM = disallowDM(interaction.guildId)
+		if (DM) {
+			return interaction.reply({
+				embeds: [DM.embed],
+			})
+		}
+
 		let progress = await santaGetProgress()
 		progress.sort(
 			(a, b) =>
