@@ -8,7 +8,7 @@ exports.santaUserEmbed = (userObj, user, command) => {
 		.setTitle(`${name}'s Info`)
 		.addFields({
 			name: '🏠 Address',
-			value: `${userObj.Name}\r${userObj.Address}\r${userObj.City} ${userObj.State} ${userObj.Zip}`,
+			value: `${userObj.Name}\r${userObj.Street}\r${userObj.City} ${userObj.State} ${userObj.Zip}`,
 		})
 
 	console.log(command)
