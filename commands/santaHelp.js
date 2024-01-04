@@ -3,8 +3,6 @@
  */
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-const { getUserPick } = require('../utils/dbSanta')
-const { OK_IMG } = require('../config/config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()

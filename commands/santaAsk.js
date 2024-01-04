@@ -38,6 +38,10 @@ module.exports = {
 			.setThumbnail(
 				'https://cdn.discordapp.com/attachments/1190153012136644638/1191529479185641612/de558f3110d42ef72a88ad3d7cefd9ad.jpg'
 			)
+			.addFields({
+				name: ' ',
+				value: 'You can answer this with </santa-answer:1192252897002528802>',
+			})
 
 		user.send({
 			embeds: [userEmbed],

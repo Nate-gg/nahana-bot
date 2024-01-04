@@ -55,8 +55,7 @@ exports.checkActiveDrawing = async () => {
 exports.addSantaDrawing = async year => {
 	const { data: newRow } = await supabase
 		.from('NB-SantaDrawing')
-		// .insert({ Year: year, Active: true })
-		.insert({ Year: year })
+		.insert({ Year: year, Active: true })
 		.select()
 		.single()
 

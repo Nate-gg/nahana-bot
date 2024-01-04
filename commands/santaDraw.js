@@ -130,9 +130,20 @@ module.exports = {
 				let user = interaction.guild.members.cache.get(item.user)
 				let pickedUser = interaction.guild.members.cache.get(item.pick)
 				const pickedObj = await getSantaUserInfo(item.pick)
+
+				const embed = new EmbedBuilder()
+					.setColor('dc5308')
+					.setTitle(`🎁🎄 It's Sneaky Santa Time 🎄🎁\r\r`)
+					.setDescription(
+						`Below Is Who You Picked!! \r\rYou can ask them questions by using </santa-ask:1192252897002528803>\r\rWhen you send them a package you can let them know with </santa-add-package:1192252897002528799>`
+					)
+
 				user.send({
-					content: `🎁🎄 It's Sneaky Santa Time 🎄🎁\r\rBelow Is Who You Picked!! You can ask them questions by using /santa-ask`,
-					embeds: [santaUserEmbed(pickedObj, pickedUser)],
+					embeds: [embed],
+				})
+
+				user.send({
+					embeds: [santaUserEmbed(pickedObj, pickedUser.user)],
 				})
 
 				insert.push({
