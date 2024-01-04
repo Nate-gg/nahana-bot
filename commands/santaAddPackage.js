@@ -80,7 +80,7 @@ module.exports = {
 
 		userEmbed.addFields({
 			name: ' ',
-			value: 'Once you receive your package please use {package-command-here} to mark it as received',
+			value: 'You can view all your packages, and mark them as received with </santa-view-packages:1192252897342259272>',
 		})
 
 		toUser.send({

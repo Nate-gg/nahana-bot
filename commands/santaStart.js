@@ -46,36 +46,34 @@ module.exports = {
 			const drawing = await addSantaDrawing(year)
 
 			drawing.map(item => {
-				if (item.UserID === '230904436984119297') {
-					let user = interaction.guild.members.cache.get(item.UserID)
+				let user = interaction.guild.members.cache.get(item.UserID)
 
-					const confirm = new ButtonBuilder()
-						.setCustomId('santaNotIn')
-						.setLabel('Nah, Not This Year')
-						.setStyle(ButtonStyle.Danger)
+				const confirm = new ButtonBuilder()
+					.setCustomId('santaNotIn')
+					.setLabel('Nah, Not This Year')
+					.setStyle(ButtonStyle.Danger)
 
-					const cancel = new ButtonBuilder()
-						.setCustomId('santaIn')
-						.setLabel('IM IN!')
-						.setStyle(ButtonStyle.Success)
+				const cancel = new ButtonBuilder()
+					.setCustomId('santaIn')
+					.setLabel('IM IN!')
+					.setStyle(ButtonStyle.Success)
 
-					const row = new ActionRowBuilder().addComponents(
-						confirm,
-						cancel
+				const row = new ActionRowBuilder().addComponents(
+					confirm,
+					cancel
+				)
+
+				let DM = new EmbedBuilder()
+					.setColor('dc5308')
+					.setTitle(`🎁🎄 It's Sneaky Santa Time 🎄🎁`)
+					.setDescription(
+						`It's that special time of the year again!\r\rSNEAKY SANTA!!!\r\rBut ... Before we begin, I need to know who's participating. \r\rAre you in?`
+					)
+					.setThumbnail(
+						'https://cdn.discordapp.com/attachments/1190153012136644638/1190671075034533888/image.png'
 					)
 
-					let DM = new EmbedBuilder()
-						.setColor('dc5308')
-						.setTitle(`🎁🎄 It's Sneaky Santa Time 🎄🎁`)
-						.setDescription(
-							`It's that special time of the year again!\r\rSNEAKY SANTA!!!\r\rBut ... Before we begin, I need to know who's participating. \r\rAre you in?`
-						)
-						.setThumbnail(
-							'https://cdn.discordapp.com/attachments/1190153012136644638/1190671075034533888/image.png'
-						)
-
-					user.send({ embeds: [DM], components: [row] })
-				}
+				user.send({ embeds: [DM], components: [row] })
 			})
 
 			embed
