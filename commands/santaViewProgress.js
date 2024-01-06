@@ -28,10 +28,13 @@ module.exports = {
 		let description = ''
 
 		progress.map(item => {
-			let received = item['NB-SantaPackages'].filter(p => p.Receive)
+			let received = item['NB-SantaPackages'].filter(p => {
+				return p.Received === true
+			})
+
 			let packages = item['NB-SantaPackages']
 
-			description += `<@${item.UserID}> Has Recived ${received.length} of ${packages.length} Gifts\r\r`
+			description += `<@${item.UserID}> Has Received ${received.length} of ${packages.length} Gifts\r\r`
 		})
 
 		const embed = new EmbedBuilder()

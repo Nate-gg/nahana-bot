@@ -21,8 +21,9 @@ module.exports = {
 		}
 
 		const userID = interaction.user.id
-
 		const packageObj = await packageList(userID, 0)
+
+		console.log(packageObj)
 
 		await interaction.reply({
 			embeds: [packageObj.embed],

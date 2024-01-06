@@ -82,9 +82,9 @@ exports.packageList = async (userID, page) => {
 	const embed = new EmbedBuilder()
 		.setColor('dc5308')
 		.setTitle('No Packages Yet :(')
-		.setDescription(`Your Sneaky Santa Hasn't Sent Anything Out Yet`)
 
 	if (packages.length === 0) {
+		embed.setDescription(`Your Sneaky Santa Hasn't Sent Anything Out Yet`)
 		return {
 			embed: embed,
 			row: false,
@@ -153,12 +153,17 @@ exports.packageList = async (userID, page) => {
 			)
 	}
 
-	const row = new ActionRowBuilder().addComponents(
-		previousButton,
-		currentButton,
-		ReceivedButton,
-		nextButton
-	)
+	const row = new ActionRowBuilder()
+
+	if (len > 1) {
+		row.addComponents(previousButton)
+	}
+
+	row.addComponents(currentButton, ReceivedButton)
+
+	if (len > 1) {
+		row.addComponents(nextButton)
+	}
 
 	return {
 		embed: embed,
