@@ -134,7 +134,7 @@ exports.packageList = async (userID, page) => {
 		.setStyle(ButtonStyle.Secondary)
 
 	const nextButton = new ButtonBuilder()
-		.setCustomId(`santaPackage-${userID}-${next}`)
+		.setCustomId(`_santaPackage-${userID}-${next}`)
 		.setLabel('>')
 		.setStyle(ButtonStyle.Secondary)
 
