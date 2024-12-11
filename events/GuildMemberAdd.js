@@ -10,7 +10,12 @@ const { Events } = require('discord.js')
 module.exports = {
 	name: Events.GuildMemberAdd,
 	once: true,
-	async execute(client) {
-		console.log('client ready')
+	async execute(interaction) {
+		console.log(interaction)
+		const UID = interaction.user.id
+		const member = interaction.guild.members.cache.get(UID)
+
+		member.roles.add('1108914738513072188')
+		// interaction.channels.cache.get('528964687824551938').send('Hello here!')
 	},
 }
