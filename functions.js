@@ -21,6 +21,8 @@ const { MessageEmbed } = require('discord.js')
 exports.startUp = () => {
 	console.log(`Logged in as ${client.user.tag}`)
 	exports.setCron()
+
+	//realtime listen
 }
 
 /**

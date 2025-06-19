@@ -5,7 +5,14 @@
  * =====
  */
 
-const { Events, EmbedBuilder } = require('discord.js')
+const {
+	Events,
+	EmbedBuilder,
+	ModalBuilder,
+	TextInputBuilder,
+	TextInputStyle,
+	ActionRowBuilder,
+} = require('discord.js')
 
 const { OK_IMG } = require('../config/config.json')
 
@@ -14,8 +21,13 @@ const {
 	getAllDrawings,
 	getDrawingPicks,
 	setPackageReceived,
+	answerQuestion,
 } = require('../utils/dbSanta')
-const { buildHistoryList, packageList } = require('../utils/fnSanta')
+const {
+	buildHistoryList,
+	packageList,
+	questionList,
+} = require('../utils/fnSanta')
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -114,6 +126,40 @@ module.exports = {
 					components: [packageObj.row],
 				})
 			}
+			if (id.match(/santaQuestion/)) {
+				const split = id.split('-')
+				const userID = split[1]
+				const page = parseInt(split[2])
+				const questionObj = await questionList(userID, page)
+
+				await interaction.update({
+					embeds: [questionObj.embed],
+					components: [questionObj.row],
+				})
+			}
+			if (id.match(/answerQuestion/)) {
+				console.log(id)
+				const split = id.split('||||')
+				const messageID = split[1]
+				const question = split[2]
+
+				const modal = new ModalBuilder()
+					.setCustomId(messageID)
+					.setTitle('Answer A Question')
+
+				const hobbiesInput = new TextInputBuilder()
+					.setCustomId('answer')
+					.setLabel(question)
+					.setStyle(TextInputStyle.Paragraph)
+
+				const secondActionRow = new ActionRowBuilder().addComponents(
+					hobbiesInput
+				)
+
+				modal.addComponents(secondActionRow)
+				await interaction.showModal(modal)
+			}
+
 			if (id.match(/santaReceived/)) {
 				const split = id.split('_')
 				const packageID = split[1]
@@ -140,6 +186,21 @@ module.exports = {
 					clickSantaIn(interaction)
 					break
 			}
+		}
+
+		if (interaction.isModalSubmit()) {
+			const answer = interaction.fields.getTextInputValue('answer')
+			await answerQuestion(interaction.customId, answer)
+
+			const embed = new EmbedBuilder()
+				.setColor('dc5308')
+				.setTitle('Message Sent!')
+				.setThumbnail(OK_IMG)
+
+			await interaction.reply({
+				embeds: [embed],
+				ephemeral: true,
+			})
 		}
 	},
 }

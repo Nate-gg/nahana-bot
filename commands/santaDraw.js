@@ -153,7 +153,7 @@ module.exports = {
 				})
 			}
 
-			await supabase.from('NB-SantaPicks').insert(insert)
+			await supabase.from('Picks').insert(insert)
 			await clearSantaParticipating()
 
 			embed

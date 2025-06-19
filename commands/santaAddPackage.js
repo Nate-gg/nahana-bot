@@ -5,7 +5,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { getUserPick, addPackage } = require('../utils/dbSanta')
 const { OK_IMG } = require('../config/config.json')
-const { trackingButton, santaDisallowDM } = require('../utils/fnSanta')
+const { santaDisallowDM } = require('../utils/fnSanta')
+const { packageEmbed } = require('../utils/embeds')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -54,34 +55,7 @@ module.exports = {
 		const from = interaction.user.id
 		const to = myPick.Picked
 
-		const userEmbed = new EmbedBuilder()
-			.setColor('dc5308')
-			.setTitle('You Have A Package Coming!!')
-			.setThumbnail(
-				'https://cdn.discordapp.com/attachments/759209717402435634/1191744506182242385/2c2ca4e7ae6639847c3a49cf8c162db729-10-dick-in-a-box.rsquare.w330.webp'
-			)
-			.addFields({ name: 'Arriving', value: date })
-
-		if (courier) {
-			userEmbed.addFields({ name: 'Courier', value: courier })
-		}
-
-		if (tracking) {
-			let trackingNumber =
-				tracking && courier
-					? trackingButton(courier, tracking)
-					: tracking
-			userEmbed.addFields({ name: 'Tracking', value: trackingNumber })
-		}
-
-		if (notes) {
-			userEmbed.addFields({ name: 'Notes', value: notes })
-		}
-
-		userEmbed.addFields({
-			name: ' ',
-			value: 'You can view all your packages, and mark them as received with </santa-view-packages:1192252897342259272>',
-		})
+		const userEmbed = packageEmbed(date, courier, tracking, notes)
 
 		toUser.send({
 			embeds: [userEmbed],

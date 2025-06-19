@@ -5,7 +5,7 @@ const {
 	ActionRowBuilder,
 } = require('discord.js')
 
-const { getPackages, getSantaUserInfo } = require('./dbSanta')
+const { getPackages, getSantaUserInfo, getQuestions } = require('./dbSanta')
 const { ERROR_IMG } = require('../config/config.json')
 
 exports.buildHistoryList = (year, obj, drawings, interaction) => {
@@ -160,6 +160,84 @@ exports.packageList = async (userID, page) => {
 	}
 
 	row.addComponents(currentButton, ReceivedButton)
+
+	if (len > 1) {
+		row.addComponents(nextButton)
+	}
+
+	return {
+		embed: embed,
+		row: row,
+	}
+}
+
+exports.questionList = async (userID, page) => {
+	const questions = await getQuestions(userID)
+
+	const embed = new EmbedBuilder()
+		.setColor('dc5308')
+		.setTitle('No Questions!!')
+
+	if (questions.length === 0) {
+		embed.setDescription(`Your Sneaky Santa Hasn't Asked Any Questions`)
+		return {
+			embed: embed,
+			row: false,
+		}
+	}
+
+	let currentObj = questions[page]
+
+	const len = questions.length
+	const current = page
+	const previous = (current + len - 1) % len
+	const next = (current + 1) % len
+
+	embed
+		.setColor('dc5308')
+		.setTitle(`Viewing Question ${page + 1} of ${questions.length}`)
+		.setThumbnail(
+			'https://cdn.discordapp.com/attachments/759209717402435634/1191744506182242385/2c2ca4e7ae6639847c3a49cf8c162db729-10-dick-in-a-box.rsquare.w330.webp'
+		)
+		.addFields({ name: 'Question:', value: currentObj.Question })
+		.addFields({
+			name: 'Answer:',
+			value: currentObj.Answer ? currentObj.Answer : 'Not Yet Answered',
+		})
+
+	const currentButton = new ButtonBuilder()
+		.setCustomId('null')
+		.setLabel(`${page + 1} of ${questions.length}`)
+		.setStyle(ButtonStyle.Primary)
+		.setDisabled(true)
+
+	const previousButton = new ButtonBuilder()
+		.setCustomId(`santaQuestion-${userID}-${previous}`)
+		.setLabel('<')
+		.setStyle(ButtonStyle.Secondary)
+
+	const nextButton = new ButtonBuilder()
+		.setCustomId(`_santaQuestion-${userID}-${next}`)
+		.setLabel('>')
+		.setStyle(ButtonStyle.Secondary)
+
+	const AnswerButton = new ButtonBuilder()
+		.setCustomId(
+			`answerQuestion||||${currentObj.QuestionID}||||${currentObj.Question}`
+		)
+		.setLabel('Answer This Question')
+		.setStyle(ButtonStyle.Success)
+
+	const row = new ActionRowBuilder()
+
+	if (len > 1) {
+		row.addComponents(previousButton)
+	}
+
+	if (!currentObj.Answer) {
+		row.addComponents(AnswerButton)
+	}
+	row.addComponents(currentButton)
 
 	if (len > 1) {
 		row.addComponents(nextButton)

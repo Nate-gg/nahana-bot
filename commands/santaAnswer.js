@@ -2,21 +2,13 @@
  * Add User To Sneaky Santa
  */
 
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-const { getPickedBy } = require('../utils/dbSanta')
-const { OK_IMG } = require('../config/config.json')
-const { santaDisallowDM } = require('../utils/fnSanta')
+const { SlashCommandBuilder } = require('discord.js')
+const { santaDisallowDM, questionList } = require('../utils/fnSanta')
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('santa-answer')
-		.setDescription('Respond To Your Sneaky Santa')
-		.addStringOption(option =>
-			option
-				.setName('answer')
-				.setDescription('Your Answer')
-				.setRequired(true)
-		),
+		.setDescription('Respond To Your Sneaky Santa'),
 
 	async execute(interaction) {
 		const DM = await santaDisallowDM(interaction.user.id)
@@ -27,30 +19,32 @@ module.exports = {
 			})
 		}
 
-		const answer = interaction.options.getString('answer')
-		const pickedMe = await getPickedBy(interaction.user.id)
-		const user = await interaction.client.users.fetch(pickedMe.UserID)
-
-		const userEmbed = new EmbedBuilder()
-			.setColor('dc5308')
-			.setTitle('An Answer To Your Question!')
-			.setDescription(answer)
-			.setThumbnail(
-				'https://cdn.discordapp.com/attachments/1190153012136644638/1191595167996710932/image.png'
-			)
-
-		user.send({
-			embeds: [userEmbed],
-		})
-
-		const embed = new EmbedBuilder()
-			.setColor('dc5308')
-			.setTitle('Message Sent!')
-			.setThumbnail(OK_IMG)
+		const userID = interaction.user.id
+		const packageObj = await questionList(userID, 0)
 
 		await interaction.reply({
-			embeds: [embed],
+			embeds: [packageObj.embed],
+			components: packageObj.row ? [packageObj.row] : [],
 			ephemeral: true,
 		})
+
+		// const answer = interaction.options.getString('answer')
+		// const pickedMe = await getPickedBy(interaction.user.id)
+		// const user = await interaction.client.users.fetch(pickedMe.UserID)
+
+		// user.send({
+		// 	embeds: [userEmbed],
+		// })
+
+		// const embed = new EmbedBuilder()
+		// 	.setColor('dc5308')
+		// 	.setTitle('Message Sent!')
+		// 	.setThumbnail(OK_IMG)
+
+		// await interaction.reply({
+		// 	embeds: [embed],
+		// 	components: [row],
+		// 	ephemeral: true,
+		// })
 	},
 }

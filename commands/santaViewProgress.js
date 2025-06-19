@@ -20,19 +20,16 @@ module.exports = {
 		}
 
 		let progress = await santaGetProgress()
-		progress.sort(
-			(a, b) =>
-				b['NB-SantaPackages'].length - a['NB-SantaPackages'].length
-		)
+		progress.sort((a, b) => b['Packages'].length - a['Packages'].length)
 
 		let description = ''
 
 		progress.map(item => {
-			let received = item['NB-SantaPackages'].filter(p => {
+			let received = item['Packages'].filter(p => {
 				return p.Received === true
 			})
 
-			let packages = item['NB-SantaPackages']
+			let packages = item['Packages']
 
 			description += `<@${item.UserID}> Has Received ${received.length} of ${packages.length} Gifts\r\r`
 		})
