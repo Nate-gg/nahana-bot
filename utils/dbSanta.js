@@ -45,14 +45,14 @@ exports.addSantaRestriction = async (userOne, userTwo) => {
 }
 
 exports.checkActiveDrawing = async () => {
-	const { data } = await supabase.from('Drawing').select().eq('Active', true)
+	const { data } = await supabase.from('Drawings').select().eq('Active', true)
 
 	return data.length > 0 ? true : false
 }
 
 exports.addSantaDrawing = async year => {
 	const { data: newRow } = await supabase
-		.from('Drawing')
+		.from('Drawings')
 		.insert({ Year: year, Active: true })
 		.select()
 		.single()
