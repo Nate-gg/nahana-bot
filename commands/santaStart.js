@@ -73,7 +73,7 @@ module.exports = {
 						'https://cdn.discordapp.com/attachments/1190153012136644638/1190671075034533888/image.png'
 					)
 
-				// user.send({ embeds: [DM], components: [row] })
+				user.send({ embeds: [DM], components: [row] })
 			})
 
 			embed
