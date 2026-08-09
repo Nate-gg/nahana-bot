@@ -12,7 +12,7 @@ module.exports = {
 			option
 				.setName('number')
 				.setDescription('Number of messages to clear')
-				.setRequired(true)
+				.setRequired(true),
 		),
 
 	async execute(interaction) {

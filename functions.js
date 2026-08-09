@@ -1,5 +1,6 @@
 // const { Discord } = require('./discord')
 const { MessageEmbed } = require('discord.js')
+const { supabase } = require('./utils/supabaseClient')
 // const cron = require('node-cron')
 
 // const Filter = require('bad-words')
@@ -23,6 +24,19 @@ exports.startUp = () => {
 	exports.setCron()
 
 	//realtime listen
+
+	channel.on(
+		'postgres_changes',
+		{
+			event: 'INSERT',
+			schema: 'public',
+			table: 'Questions',
+			filter: `From=eq.${myID}`,
+		},
+		payload => {
+			console.log(payload.new)
+		}
+	)
 }
 
 /**

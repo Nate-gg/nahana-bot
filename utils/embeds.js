@@ -1,7 +1,9 @@
 const { EmbedBuilder } = require('discord.js')
 
 exports.santaUserEmbed = (userObj, user, command) => {
-	const name = user.nickname ? user.nickname : user.username
+	const name = user.user.globalName
+		? user.user.globalName
+		: user.user.username
 
 	const embed = new EmbedBuilder()
 		.setColor('dc5308')
@@ -45,17 +47,17 @@ exports.packageEmbed = (
 	courier = null,
 	tracking = null,
 	notes = null,
-	update = false
+	update = false,
 ) => {
 	const userEmbed = new EmbedBuilder()
 		.setColor('dc5308')
 		.setTitle(
 			!update
 				? 'You Have A Package Coming!!'
-				: 'One Of Your Packages Has Been Updated'
+				: 'One Of Your Packages Has Been Updated',
 		)
 		.setThumbnail(
-			'https://cdn.discordapp.com/attachments/759209717402435634/1191744506182242385/2c2ca4e7ae6639847c3a49cf8c162db729-10-dick-in-a-box.rsquare.w330.webp'
+			'https://cdn.discordapp.com/attachments/759209717402435634/1191744506182242385/2c2ca4e7ae6639847c3a49cf8c162db729-10-dick-in-a-box.rsquare.w330.webp',
 		)
 		.addFields({ name: 'Arriving', value: date })
 
@@ -85,7 +87,7 @@ exports.quetionEmbed = question => {
 		.setTitle('Your Sneaky Santa Has A Question!')
 		.setDescription(`Q: ${question}`)
 		.setThumbnail(
-			'https://cdn.discordapp.com/attachments/1190153012136644638/1191529479185641612/de558f3110d42ef72a88ad3d7cefd9ad.jpg'
+			'https://cdn.discordapp.com/attachments/1190153012136644638/1191529479185641612/de558f3110d42ef72a88ad3d7cefd9ad.jpg',
 		)
 		.addFields({
 			name: ' ',
@@ -107,7 +109,7 @@ exports.answerEmbed = (answer, question) => {
 		})
 
 		.setThumbnail(
-			'https://cdn.discordapp.com/attachments/1190153012136644638/1191595167996710932/image.png'
+			'https://cdn.discordapp.com/attachments/1190153012136644638/1191595167996710932/image.png',
 		)
 
 	return userEmbed

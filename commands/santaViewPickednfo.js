@@ -2,10 +2,11 @@
  * View Your Sneaky Santa Picks Info
  */
 
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const { getSantaUserInfo, getUserPick } = require('../utils/dbSanta')
 const { santaUserEmbed } = require('../utils/embeds')
 const { santaDisallowDM } = require('../utils/fnSanta')
+const { ERROR_IMG } = require('../config/config.json')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,6 +19,21 @@ module.exports = {
 		if (DM.notAllowed) {
 			return interaction.reply({
 				embeds: [DM.embed],
+			})
+		}
+
+		if (!interaction.guild) {
+			console.log('test')
+			const embed = new EmbedBuilder()
+				.setColor('dc5308')
+				.setTitle('Not Allowed')
+				.setDescription(
+					'This Can Only Be Used In <#655476264110653462> ',
+				)
+				.setImage(ERROR_IMG)
+
+			return interaction.reply({
+				embeds: [embed],
 			})
 		}
 

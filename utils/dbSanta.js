@@ -13,7 +13,7 @@ exports.addSantaUser = async userId => {
 
 exports.updateSantaUserInfo = async (obj, userId) => {
 	const insert = Object.fromEntries(
-		Object.entries(obj).filter(([_, v]) => v != null) // eslint-disable-line no-unused-vars
+		Object.entries(obj).filter(([_, v]) => v != null), // eslint-disable-line no-unused-vars
 	)
 
 	insert['LastUpdate'] = Date.now()
@@ -119,7 +119,7 @@ exports.getPreviousDraws = async () => {
 		.select(
 			`
             *, 
-            Drawing!inner(ID)`
+            Drawing!inner(ID)`,
 		)
 		.eq('Drawing.Exclude', true)
 
@@ -234,6 +234,15 @@ exports.santaGetProgress = async () => {
 	return data
 }
 
+exports.santaGetCurrentUsers = async () => {
+	const { data } = await supabase
+		.from('Picks')
+		.select('*, Drawings!inner(ID, Active)')
+		.is('Drawings.Active', true)
+
+	return data
+}
+
 exports.santaRealtime = async client => {
 	supabase
 		.channel('realtime-packages')
@@ -251,13 +260,13 @@ exports.santaRealtime = async client => {
 					payload.new.Date,
 					payload.new.Courier,
 					payload.new.Tracking,
-					payload.new.Notes
+					payload.new.Notes,
 				)
 
 				toUser.send({
 					embeds: [userEmbed],
 				})
-			}
+			},
 		)
 		.on(
 			'postgres_changes',
@@ -274,13 +283,13 @@ exports.santaRealtime = async client => {
 					payload.new.Courier,
 					payload.new.Tracking,
 					payload.new.Notes,
-					true
+					true,
 				)
 
 				toUser.send({
 					embeds: [userEmbed],
 				})
-			}
+			},
 		)
 		.subscribe()
 
@@ -299,7 +308,7 @@ exports.santaRealtime = async client => {
 
 				const AnswerButton = new ButtonBuilder()
 					.setCustomId(
-						`answerQuestion||||${payload.new.QuestionID}||||${payload.new.Question}`
+						`answerQuestion||||${payload.new.QuestionID}||||${payload.new.Question}`,
 					)
 					.setLabel('Answer This Question')
 					.setStyle(ButtonStyle.Success)
@@ -311,7 +320,7 @@ exports.santaRealtime = async client => {
 					embeds: [userEmbed],
 					components: [row],
 				})
-			}
+			},
 		)
 		.on(
 			'postgres_changes',
@@ -325,7 +334,7 @@ exports.santaRealtime = async client => {
 				const fromUser = await client.users.fetch(payload.new.From)
 				const userEmbed = answerEmbed(
 					payload.new.Answer,
-					payload.new.Question
+					payload.new.Question,
 				)
 
 				// const AnswerButton = new ButtonBuilder()
@@ -341,7 +350,7 @@ exports.santaRealtime = async client => {
 				fromUser.send({
 					embeds: [userEmbed],
 				})
-			}
+			},
 		)
 		.subscribe()
 }

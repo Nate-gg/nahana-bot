@@ -82,8 +82,8 @@ module.exports = {
 							(rUser.UserOne === item.UserID &&
 								rUser.UserTwo === user.UserID) ||
 							(rUser.UserTwo === item.UserID &&
-								rUser.UserOne === user.UserID)
-					)
+								rUser.UserOne === user.UserID),
+					),
 			)
 
 			/** ===== remove previous picks */
@@ -92,8 +92,8 @@ module.exports = {
 					!previousDraws.find(
 						rUser =>
 							rUser.UserID === item.UserID &&
-							rUser.Picked === user.UserID
-					)
+							rUser.Picked === user.UserID,
+					),
 			)
 
 			return {
@@ -112,7 +112,7 @@ module.exports = {
 		try {
 			const picks = drawingPool.map(item => {
 				const pool = item.pool.filter(
-					user => !picked.find(rUser => rUser === user.UserID)
+					user => !picked.find(rUser => rUser === user.UserID),
 				)
 
 				drawingPool = shuffle(pool)
@@ -127,25 +127,6 @@ module.exports = {
 			const insert = []
 
 			for (const item of picks) {
-				let user = interaction.guild.members.cache.get(item.user)
-				let pickedUser = interaction.guild.members.cache.get(item.pick)
-				const pickedObj = await getSantaUserInfo(item.pick)
-
-				const embed = new EmbedBuilder()
-					.setColor('dc5308')
-					.setTitle(`🎁🎄 It's Sneaky Santa Time 🎄🎁\r\r`)
-					.setDescription(
-						`Below Is Who You Picked!! \r\rYou can ask them questions by using </santa-ask:1192252897002528803>\r\rWhen you send them a package you can let them know with </santa-add-package:1192252897002528799>`
-					)
-
-				user.send({
-					embeds: [embed],
-				})
-
-				user.send({
-					embeds: [santaUserEmbed(pickedObj, pickedUser.user)],
-				})
-
 				insert.push({
 					UserID: item.user,
 					Picked: item.pick,
@@ -153,8 +134,33 @@ module.exports = {
 				})
 			}
 
-			await supabase.from('Picks').insert(insert)
-			await clearSantaParticipating()
+			const { error } = await supabase.from('Picks').insert(insert)
+
+			if (!error) {
+				for (const item of picks) {
+					let user = interaction.guild.members.cache.get(item.user)
+					let pickedUser = interaction.guild.members.cache.get(
+						item.pick,
+					)
+					const pickedObj = await getSantaUserInfo(item.pick)
+
+					const embed = new EmbedBuilder()
+						.setColor('dc5308')
+						.setTitle(`🎁🎄 It's Sneaky Santa Time 🎄🎁\r\r`)
+						.setDescription(
+							`Below Is Who You Picked!! \r\rYou can ask them questions by using </santa-ask:1192252897002528803>\r\rWhen you send them a package you can let them know with </santa-add-package:1192252897002528799>`,
+						)
+
+					user.send({
+						embeds: [embed],
+					})
+
+					user.send({
+						embeds: [santaUserEmbed(pickedObj, pickedUser.user)],
+					})
+				}
+				await clearSantaParticipating()
+			}
 
 			embed
 				.setTitle('YAY!!')
